@@ -1,6 +1,6 @@
 <?php
 
-const SHOW_CLASSDATA = TRUE;
+const SHOW_CLASSDATA = FALSE;
 
 /* error reporting for classname */
 ini_set ("error_reporting", E_ALL & ~E_NOTICE);
@@ -11,14 +11,13 @@ include_once "ntrnx_locale.class.php";
 $html_br = "<br/>";
 $html_br2 = $html_br . $html_br;
 
-$pre_open = "<pre>";
-$pre_close = "</pre>";
+$state_on = "</b>ON</b>";
+$state_off = "</b>OFF</b>";
 
-$state_on = "ON";
-$state_off = "OFF";
-
-$state_passed = "PASSED";
-$state_failed = "FAILED";
+$state_possible = "<i>possible</i>";
+$state_passed = "<i>passed</i>";
+$state_failed = "<i>failed</i>";
+$state_unknown = "<i>unknown</i>";
 
 echo "example for using the ntrnx_locale_class". $html_br2;
 
@@ -58,10 +57,9 @@ if (SHOW_CLASSDATA === TRUE) {
 
 		/* 0 = dependences check passed */
 		/* -1 dependences check failed */
-		/* -2 dependences check failed, php version error */
 
-		$result = \NTRNX_LOCALE\dependences::check();
-		//$result = \NTRNX_LOCALE\dependences::check(TRUE);
+		//$result = \NTRNX_LOCALE\dependences::check();
+		$result = \NTRNX_LOCALE\dependences::check(TRUE);
 
 		echo "class dependences state : ";
 
@@ -71,7 +69,7 @@ if (SHOW_CLASSDATA === TRUE) {
 
 			foreach ($result as $key => $value) {
 
-				echo $value[0] . " - ";
+				echo " - " . $value[0] . " - ";
 
 				if ($value[1] === 0) { echo $state_passed; } else { echo $state_failed; }
 
@@ -99,7 +97,58 @@ if (SHOW_CLASSDATA === TRUE) {
 
 		echo $state_on . $html_br;
 
-		echo "class needed function list :" . \NTRNX_LOCALE\needed_functions::check() .$html_br;
+		//echo "class needed function state :" . \NTRNX_LOCALE\needed_functions::check() .$html_br;
+
+		echo "class needed function state : ";
+
+		/*   0 = function check passed */
+		/*  -1 = function check failed */
+
+		//$result = \NTRNX_LOCALE\needed_functions::check();
+		$result = \NTRNX_LOCALE\needed_functions::check(TRUE);
+
+		if (is_array($result)) {
+
+			echo $html_br;
+
+			foreach ($result as $key => $value) {
+
+				echo " - " . $value[0] . " - ";
+
+				if ($value[1] === 0) { echo $state_passed; } else { echo $state_failed; }
+
+				echo $html_br;
+
+			}
+
+		} else {
+
+			switch ($result) {
+
+				case 1:
+
+					echo $state_possible . $html_br;
+
+				break;
+
+				case 0:
+
+					echo $state_passed . $html_br;
+
+				break;
+
+				case -1:
+
+					echo $state_failed . $html_br;
+
+				break;
+
+				default:
+				break;
+
+			}
+
+		}
 
 	} else {
 
@@ -113,46 +162,79 @@ if (SHOW_CLASSDATA === TRUE) {
 
 		echo $state_on . $html_br;
 
-		/* 0 = no updated needed, you have the latest version */
-		/* -1 = update error, could not read local update information */
-		/* -2 = update error, could not read remote update information */
-		/* -4 = update error, unknown version installed */
+		/*  1 = update possible, there is an update available */
+		/*  0 = no updated needed, you have the latest version */
+		/* -1 = update error, unknown version */
 
-		$result = \NTRNX_LOCALE\update::check();
+		//$result = \NTRNX_LOCALE\update::check();
+		$result = \NTRNX_LOCALE\update::check(TRUE);
 
 		echo "class update state : ";
 
-		switch ($result) {
+		if (is_array($result)) {
 
-			case 0:
+			echo $html_br;
 
-				echo $state_passed . $html_br;
+			foreach ($result as $key => $value) {
 
-			break;
+				echo " - " . $value[0] . " - ";
 
-			case -1:
+				switch ($value[1]) {
 
-				echo "update error, could not read local update information" . $html_br;
+					case 1:
 
-			break;
+						echo $state_possible;
 
-			case -2:
+					break;
 
-			echo "update error, could not read remote update information" . $html_br;
+					case 0:
 
-			break;
+						echo $state_passed;
 
-			case -4:
+					break;
 
-				echo "update error, unknown version installed" . $html_br;
+					case -1:
 
-			break;
+						echo $state_unknown;
 
-			default:
+					break;
 
-				echo "possible update to version " . $result . ": " . \NTRNX_LOCALE\get_link::update() . $html_br;
+					default:
+					break;
 
-			break;
+
+				}
+
+				echo $html_br;
+
+			}
+
+		} else {
+
+			switch ($result) {
+
+				case 1:
+
+					echo $state_possible . $html_br;
+
+				break;
+
+				case 0:
+
+					echo $state_passed . $html_br;
+
+				break;
+
+				case -1:
+
+					echo $state_unknown . $html_br;
+
+				break;
+
+				default:
+				break;
+
+			}
 
 		}
 

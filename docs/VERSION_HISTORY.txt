@@ -1,3 +1,9 @@
+0.2.10.0
+- changes in the function dependences::check
+- rewrote the function update::check
+- rewrote the function function_exists::check
+- rewrote thi file index.php to handel the updates of the functions dependences::check, function_exists::check, update::check
+- some var name changes in file ntrnx_locale_config.php
 
 0.2.9.0
 - rewrote the function dependences::check

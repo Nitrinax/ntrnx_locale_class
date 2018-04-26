@@ -71,89 +71,79 @@ class update extends \NTRNX_LOCALE\ntrnx_locale {
 
 	}
 
-	static function checkA($detailed = FALSE) {
+	static function check($detailed = FALSE) {
+
+		/* update possible, there is an update available */
+		define('MSG_UPDATE_POSSIBLE_THERE_IS_AN_UPDATE_AVAILABLE', 1);
 
 		/* no updated needed, you have the latest version */
 		define('MSG_NO_UPDATE_NEEDED_YOU_HAVE_THE_LATEST_VERSION', 0);
 
-		/* update error, could not read update information */
-		define('MSG_ERROR_COULD_NOT_READ_LOCAL_UPDATE_INFORMATION', -1);
-
-		/* update error, could not read update information */
-		define('MSG_ERROR_COULD_NOT_READ_REMOTE_UPDATE_INFORMATION', -2);
-
 		/* update error, unknown version installed */
-		define('MSG_ERROR_UNKNOWN_VERSION_INSTALLED', -4);
+		define('MSG_ERROR_UNKNOWN_VERSION', -1);
+
+		if ($detailed) {
+
+			$result = array();
+
+		} else {
+
+			$result = "";
+
+		}
+
+		$state = "";
 
 		/* get version data */
 		$remote_version = self::get_remote_version();
+		//echo $remote_version . "</br>";
+
 		$local_version = self::get_local_version();
-
-		/* check version data */
-		if (!$local_version) { return MSG_ERROR_COULD_NOT_READ_LOCAL_UPDATE_INFORMATION; }
-		if (!$remote_version) { return MSG_ERROR_COULD_NOT_READ_REMOTE_UPDATE_INFORMATION; }	
-
-		/* handle http status codes */
-		if(!preg_match('/^(\d+\.)?(\d+\.)?(\*|\d+)$/', $local_version)){ return MSG_ERROR_COULD_NOT_READ_LOCAL_UPDATE_INFORMATION; }
-		if(!preg_match('/^(\d+\.)?(\d+\.)?(\*|\d+)$/', $remote_version)){ return MSG_ERROR_COULD_NOT_READ_REMOTE_UPDATE_INFORMATION; }
+		//echo $local_version . "</br>";
 
 		/* compare version strings */
 		if (version_compare($local_version, $remote_version, '<')) {
 
-			return $remote_version;
+			if ($detailed) {
+
+				array_push ($result, array($remote_version, MSG_UPDATE_POSSIBLE_THERE_IS_AN_UPDATE_AVAILABLE));
+				array_push ($result, array($local_version, MSG_NO_UPDATE_NEEDED_YOU_HAVE_THE_LATEST_VERSION));
+
+			} else {
+
+				$result = MSG_UPDATE_POSSIBLE_THERE_IS_AN_UPDATE_AVAILABLE;
+
+			}
 
 		} else if (version_compare($local_version, $remote_version, '>')) {
 
-			return MSG_ERROR_UNKNOWN_VERSION_INSTALLED;
+			if ($detailed) {
+
+				array_push ($result, array($remote_version, MSG_NO_UPDATE_NEEDED_YOU_HAVE_THE_LATEST_VERSION));
+				array_push ($result, array($local_version, MSG_ERROR_UNKNOWN_VERSION));
+
+			} else {
+
+				$result = MSG_ERROR_UNKNOWN_VERSION;
+
+			}
 
 		} else {
 
-			return MSG_NO_UPDATE_NEEDED_YOU_HAVE_THE_LATEST_VERSION;
+			if ($detailed) {
+
+				array_push ($result, array($remote_version, MSG_NO_UPDATE_NEEDED_YOU_HAVE_THE_LATEST_VERSION));
+				array_push ($result, array($local_version, MSG_NO_UPDATE_NEEDED_YOU_HAVE_THE_LATEST_VERSION));
+
+			} else {
+
+				$result = MSG_NO_UPDATE_NEEDED_YOU_HAVE_THE_LATEST_VERSION;
+
+			}
 
 		}
 
-	}
-
-	static function check() {
-
-		/* no updated needed, you have the latest version */
-		define('MSG_NO_UPDATE_NEEDED_YOU_HAVE_THE_LATEST_VERSION', 0);
-
-		/* update error, could not read update information */
-		define('MSG_ERROR_COULD_NOT_READ_LOCAL_UPDATE_INFORMATION', -1);
-
-		/* update error, could not read update information */
-		define('MSG_ERROR_COULD_NOT_READ_REMOTE_UPDATE_INFORMATION', -2);
-
-		/* update error, unknown version installed */
-		define('MSG_ERROR_UNKNOWN_VERSION_INSTALLED', -4);
-
-		/* get version data */
-		$remote_version = self::get_remote_version();
-		$local_version = self::get_local_version();
-
-		/* check version data */
-		if (!$local_version) { return MSG_ERROR_COULD_NOT_READ_LOCAL_UPDATE_INFORMATION; }
-		if (!$remote_version) { return MSG_ERROR_COULD_NOT_READ_REMOTE_UPDATE_INFORMATION; }	
-
-		/* handle http status codes */
-		if(!preg_match('/^(\d+\.)?(\d+\.)?(\*|\d+)$/', $local_version)){ return MSG_ERROR_COULD_NOT_READ_LOCAL_UPDATE_INFORMATION; }
-		if(!preg_match('/^(\d+\.)?(\d+\.)?(\*|\d+)$/', $remote_version)){ return MSG_ERROR_COULD_NOT_READ_REMOTE_UPDATE_INFORMATION; }
-
-		/* compare version strings */
-		if (version_compare($local_version, $remote_version, '<')) {
-
-			return $remote_version;
-
-		} else if (version_compare($local_version, $remote_version, '>')) {
-
-			return MSG_ERROR_UNKNOWN_VERSION_INSTALLED;
-
-		} else {
-
-			return MSG_NO_UPDATE_NEEDED_YOU_HAVE_THE_LATEST_VERSION;
-
-		}
+		return $result;
 
 	}
 

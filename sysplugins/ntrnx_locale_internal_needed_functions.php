@@ -37,47 +37,57 @@ class needed_functions extends \NTRNX_LOCALE\ntrnx_locale {
 
 	}
 
-    static function checkA($detailed = FALSE) {
+    static function check($detailed = FALSE) {
+
+		/* function check passed */
+		define('MSG_FUNCTION_CHECK_PASSED', 0);
+
+		/* function check failed */
+		define('MSG_FUNCTION_CHECK_FAILED', -1);
 
 		$function_array = self::$_class_needed_functions;
 
-        $passed = " - <i>passed</i>";
-        $failed = " - <i><font color=\"red\">failed</font></i>";
-        $result = "";
+		if ($detailed) {
 
-		foreach ($function_array as $key => $value) {
+			$result = array();
 
-            $result .= "<br/> - " . $function_array [$key];
+		} else {
 
-			if (!function_exists($function_array [$key])) {
-				$result .= $failed;
-			} else {
-                $result .= $passed;
-            }
+			$result = "";
 
 		}
 
-		return $result;
+		$state = "";
 
-	}
+		$key = "";
 
-    static function check() {
+		//$value = "";
 
-		$function_array = self::$_class_needed_functions;
+		//foreach ($function_array as $key => $value) {
+		foreach ($function_array as $key) {		
 
-        $passed = " - <i>passed</i>";
-        $failed = " - <i><font color=\"red\">failed</font></i>";
-        $result = "";
+			if (!function_exists($key)) {
 
-		foreach ($function_array as $key => $value) {
+				$state = MSG_FUNCTION_CHECK_FAILED;
 
-            $result .= "<br/> - " . $function_array [$key];
-
-			if (!function_exists($function_array [$key])) {
-				$result .= $failed;
 			} else {
-                $result .= $passed;
-            }
+
+				$state = MSG_FUNCTION_CHECK_PASSED;
+
+			}
+
+			//echo $key . " : " . $state . "</br>";
+
+			if ($detailed) {
+
+				array_push ($result, array($key, $state));
+
+			} else {
+
+				if (($result === MSG_FUNCTION_CHECK_PASSED) OR ($result === "")) { $result = $state; }
+
+			}
+		
 
 		}
 

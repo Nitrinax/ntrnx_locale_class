@@ -25,12 +25,12 @@ class ntrnx_locale_data extends \NTRNX_LOCALE\config {
 	*/
 	const _CLASS_VERSION_MAJOR = "0";
 	const _CLASS_VERSION_MINOR = "2";
-	const _CLASS_VERSION_BUILD = "9";
+	const _CLASS_VERSION_BUILD = "10";
 	const _CLASS_VERSION_REVISION = "0";
 	/* YYYY-MM-DD */
-	const _CLASS_DATE = "2018-04-25";
+	const _CLASS_DATE = "2018-04-26";
 	/* hh:mm:ss */
-	const _CLASS_TIME = "08:54:00";
+	const _CLASS_TIME = "09:27:00";
 
 	/*
 	* project branches
@@ -77,8 +77,8 @@ class ntrnx_locale_data extends \NTRNX_LOCALE\config {
 	const _CLASS_VERSION_URL = "https://raw.githubusercontent.com/Nitrinax/ntrnx_locale_class/master/docs/VERSION.txt";
 	/* project update url */
 	const _CLASS_UPDATE_URL = "https://github.com/Nitrinax/ntrnx_locale_class/";
-	const _CLASS_UPDATE_VERSION_URL = "https://github.com/Nitrinax/ntrnx_locale_class/blob/master/data/VERSION.txt";
-	const _CLASS_UPDATE_RAW_VERSION_URL = "https://raw.githubusercontent.com/Nitrinax/ntrnx_locale_class/master/data/VERSION.txt";
+	const _CLASS_UPDATE_VERSION_URL = "https://github.com/Nitrinax/ntrnx_locale_class/blob/master/docs/VERSION.txt";
+	const _CLASS_UPDATE_RAW_VERSION_URL = "https://raw.githubusercontent.com/Nitrinax/ntrnx_locale_class/master/docs/VERSION.txt";
 
 	/* project manual url */
 	const _CLASS_MANUAL_URL = "https://github.com/Nitrinax/ntrnx_locale_class/master/docs/";

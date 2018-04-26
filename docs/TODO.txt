@@ -4,6 +4,3 @@ included strings from config file
 - custom catalog, language string
 
 localized date, time, currency etc.
-
-rewrite needed_functions::check similar to dependences::check
-rewrite update::check similar to dependences::check

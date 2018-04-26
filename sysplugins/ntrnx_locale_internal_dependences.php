@@ -45,9 +45,6 @@ class dependences extends \NTRNX_LOCALE\ntrnx_locale {
 		/* dependences check failed */
 		define('MSG_DEPENDENCES_CHECK_FAILED', -1);
 
-		/* dependences check failed, php version error */
-		define('MSG_DEPENDENCES_CHECK_FAILED_PHP_VERSION_ERROR', -2);
-
 		$dependences_array = self::$_class_dependences;
 
 		if ($detailed) {
@@ -77,7 +74,7 @@ class dependences extends \NTRNX_LOCALE\ntrnx_locale {
 					/* check for needed version */
 					if (version_compare(phpversion(), $value, "<")) {
 
-						if ($detailed) { $state = MSG_DEPENDENCES_CHECK_FAILED_PHP_VERSION_ERROR; } else { $state = MSG_DEPENDENCES_CHECK_FAILED; }
+						$state = MSG_DEPENDENCES_CHECK_FAILED;
 
 					} else {
 
