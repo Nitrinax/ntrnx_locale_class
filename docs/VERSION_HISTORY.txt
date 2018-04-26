@@ -1,0 +1,22 @@
+
+0.2.9.0
+- rewrote the function dependences::check
+- changed code of index.php to handle code updates of the function dependences::check 
+
+0.2.8.1
+- small changes in order of code for the function update::check
+
+0.2.8.0
+- added new vars for custom locale dirs and strings to config file
+
+0.2.7.0
+- added handling of http reponse codes for update check
+- splitted error messages for update error on reading version informations to local and remote strings
+
+0.2.6.0
+- added subclass get_link for returning of url formatted links
+- added update check
+
+0.2.5.0
+- index.php rearranged
+- add functions get_local_version, state to ntrnx_locale_internal_update.php
